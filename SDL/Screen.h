@@ -1,6 +1,6 @@
 #pragma once
 #include<SDL.h>
-namespace mine {
+
 class Screen
 {
 public:
@@ -24,4 +24,3 @@ public:
 	
 };
 
-}

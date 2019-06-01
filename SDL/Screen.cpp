@@ -1,13 +1,15 @@
 #include "Screen.h"
 #include<iostream>
-namespace mine {
+
 	Screen::Screen():
 		m_window(NULL),
 		m_renderer(NULL),
 		m_texture(NULL),
 		m_buffer(NULL) {
-
 	}
+
+
+
 	bool Screen::init() {
 		const int screenWidth = 800;
 		const int screenHeight = 600;
@@ -36,12 +38,8 @@ namespace mine {
 			SDL_Quit();
 			return false;
 		}
-
 		m_buffer = new Uint32[screenWidth * screenHeight];
-
 		SDL_memset(m_buffer, 0, screenWidth * screenHeight * sizeof(Uint32));
-
-
 		return true;
 	}
 
@@ -71,6 +69,7 @@ namespace mine {
 
 	bool Screen::processEvent() {
 		SDL_Event event;
+		while(SDL_PollEvent(&event))
 			if (event.type == SDL_QUIT) {
 				return false;
 			}
@@ -87,4 +86,3 @@ namespace mine {
 
 	}
 
-}

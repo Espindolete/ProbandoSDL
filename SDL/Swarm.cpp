@@ -1,5 +1,5 @@
 #include "Swarm.h"
-namespace mine {
+
 
 	Swarm::Swarm() {
 		m_particles = new Particle[NPARTICLES];
@@ -9,4 +9,3 @@ namespace mine {
 		delete[] m_particles;
 	}
 
-}

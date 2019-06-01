@@ -1,5 +1,5 @@
 #pragma once
-namespace mine{
+
 
 struct Particle{
 	double m_x;
@@ -11,4 +11,3 @@ public:
 };
 
 
-}
