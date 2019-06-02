@@ -8,7 +8,9 @@
 		m_buffer(NULL) {
 	}
 
-
+	void Screen::clear() {
+		SDL_memset(m_buffer,0,screenWidth*screenHeight*sizeof(Uint32));
+	}
 
 	bool Screen::init() {
 		const int screenWidth = 800;
@@ -51,10 +53,10 @@
 	}
 
 	void Screen::setPixel(int x, int y, Uint8 red, Uint8 green, Uint8 blue) {
-		/*
+		
 		if (x < 0 || x >= screenWidth || y < 0 || y >= screenHeight) {
 			return;
-		}*/
+		}
 
 		Uint32 color = red;
 		color <<= 8;

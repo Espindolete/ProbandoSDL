@@ -21,19 +21,24 @@ int main(int argc, char* argv[]) {
 
 	while (true)
 	{
-
 		int elapsed = SDL_GetTicks();
-		unsigned char red = (unsigned char)((1 + sin(elapsed * 0.001)) * 128);
-		unsigned char green = red;
-		unsigned char blue = red;
-		const Particle* const pParticles = swarm.getParticles();
+		swarm.update(elapsed);
+
+		unsigned char red = (unsigned char)((1 + sin(elapsed * 0.01)) * 128);
+		unsigned char green = (unsigned char)((1 + cos(elapsed * 0.01)) * 128);
+		unsigned char blue = (unsigned char)((1 + sin((elapsed * 0.01)-M_PI/2) * 128));
+		const radian::Particle* const pParticles = swarm.getParticles();
+
+		//screen.clear();
+
+
 		for (int i = 0; i < Swarm::NPARTICLES; i++) {
-			Particle particle = pParticles[i];
+			radian::Particle particle = pParticles[i];
 			int x = (particle.m_x+1)*Screen::screenWidth/2;
-			int y = (particle.m_y + 1) * Screen::screenHeight/2;
+			int y = particle.m_y  * Screen::screenWidth/2+Screen::screenHeight/2;
 			screen.setPixel(x, y, red,green,blue);
 		}
-
+		
 		screen.update();
 
 		if (screen.processEvent()==false) {

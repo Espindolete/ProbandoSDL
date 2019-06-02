@@ -4,13 +4,15 @@
 class Swarm
 {
 public:
-	const static int NPARTICLES=10000;
+	const static int NPARTICLES=5000;
 private:
-	Particle* m_particles;
+	radian::Particle* m_particles;
+	int lastTime;
 
 public:
 	Swarm();
 	~Swarm();
+	void update(int elapsed);
 
-	const Particle* const getParticles() { return m_particles; };
+	const radian::Particle* const getParticles() { return m_particles; };
 };
