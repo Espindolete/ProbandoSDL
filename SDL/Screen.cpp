@@ -5,12 +5,52 @@
 		m_window(NULL),
 		m_renderer(NULL),
 		m_texture(NULL),
-		m_buffer(NULL) {
+		m_buffer(NULL),
+		m_buffer2(NULL) {
 	}
 
-	void Screen::clear() {
-		SDL_memset(m_buffer,0,screenWidth*screenHeight*sizeof(Uint32));
+	void Screen::boxBlur() {
+		Uint32* temp = m_buffer;
+		m_buffer = m_buffer2;
+		m_buffer2 = temp;
+
+		for (int i = 0; i < screenWidth; i++)
+		{
+			for (int j = 0; j < screenHeight; j++)
+			{
+				int redTotal = 0;
+				int blueTotal = 0;
+				int greenTotal = 0;
+				for (int x = -1; x <= 1; x++) {
+					for (int y = -1; y <= 1; y++)
+					{
+						int currentX = i + x;
+						int currentY = j + y;
+						if (currentX > 0 && currentX < screenWidth && currentY>0 && currentY < screenHeight) {
+							Uint32 color = m_buffer2[currentX + currentY * screenWidth];
+							Uint8 red = color >> 24;
+							Uint8 green = color >> 16;
+							Uint8 blue = color >> 8;
+							redTotal += red;
+							greenTotal += green;
+							blueTotal += blue;
+						}
+
+					}
+				}
+
+				setPixel(i, j, redTotal / 9, greenTotal / 9, blueTotal / 9);
+			}
+
+		}
 	}
+
+	/*
+	void Screen::clear() {
+		SDL_memset(m_buffer, 0, screenWidth * screenHeight * sizeof(Uint32));
+		SDL_memset(m_buffer2, 0, screenWidth * screenHeight * sizeof(Uint32));
+	}
+	*/
 
 	bool Screen::init() {
 		const int screenWidth = 800;
@@ -18,7 +58,6 @@
 		if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 			return false;
 		}
-
 		m_window = SDL_CreateWindow("test", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			screenWidth, screenHeight, SDL_WINDOW_SHOWN);
 		if (m_window == NULL) {
@@ -41,7 +80,9 @@
 			return false;
 		}
 		m_buffer = new Uint32[screenWidth * screenHeight];
+		m_buffer2 = new Uint32[screenWidth * screenHeight];
 		SDL_memset(m_buffer, 0, screenWidth * screenHeight * sizeof(Uint32));
+		SDL_memset(m_buffer2, 0, screenWidth * screenHeight * sizeof(Uint32));
 		return true;
 	}
 
@@ -80,6 +121,7 @@
 	}
 	void Screen::close() {
 		delete[] m_buffer;
+		delete[] m_buffer2;
 		SDL_DestroyTexture(m_texture);
 		SDL_DestroyRenderer(m_renderer);
 		SDL_DestroyWindow(m_window);

@@ -5,6 +5,8 @@ namespace radian {
 	struct Particle {
 		double m_x;
 		double m_y;
+
+	private:
 		double m_direccion;
 		double m_speed;
 
@@ -12,6 +14,8 @@ namespace radian {
 		Particle();
 		virtual ~Particle();
 		void update(int interval);
+	private:
+		void init();
 	};
 
 }

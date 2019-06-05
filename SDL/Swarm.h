@@ -13,6 +13,5 @@ public:
 	Swarm();
 	~Swarm();
 	void update(int elapsed);
-
 	const radian::Particle* const getParticles() { return m_particles; };
 };
